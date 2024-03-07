@@ -1,47 +1,9 @@
-const options = {
-    method: 'GET',
-    headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${process.env.API_KEY}`
-    }
-};
-
-const movieInput = document.getElementById('movie-input');
-const movieOptions = document.getElementById('movie-options');
-const movieCarousel = document.getElementById('movie-carousel');
-
-// Search dynamically movies as the user types
-movieInput.addEventListener('input', async () => {
-    const searchTerm = movieInput.value.trim();
-    if (!searchTerm || searchTerm.length <= 3) {
-        movieOptions.innerHTML = ''; // Clear movie options if input is empty
-        return;
-    }
-
-    // Fetch movie options based on the user's input
-    const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(searchTerm)}`, options);
-    const data = await response.json();
-    
-    // Populate movie options container with fetched movie options
-    movieOptions.innerHTML = '';
-    data.results.forEach(movie => {
-        if (movie.poster_path) {
-            const option = document.createElement('div');
-            option.classList.add('movie-option');
-            option.innerHTML = `<img src="https://image.tmdb.org/t/p/w500/${movie.poster_path}" alt="${movie.original_title}">
-                                <p>${movie.original_title} (${movie.release_date.split('-')[0]})</p>`;
-            option.addEventListener('click', () => {
-                addMovieToCarousel(movie);
-                addMovieToSheets(movie);
-                movieOptions.innerHTML = ''; // Clear movie options after selecting a movie
-            });
-            movieOptions.appendChild(option);
-        }
-    });
-});
-
 // Add movie to the webpage
 function addMovieToCarousel(movie) {
+    const movieCarousel = document.getElementById('movie-carousel');
+    const movieInput = document.getElementById('movie-input');
+
+
     const movieCard = document.createElement('div');
     movieCard.classList.add('movie-card');
 
@@ -99,38 +61,60 @@ async function addMovieToSheets(movie) {
         overview: movie.overview
     };
 
-    try {
-        const response = await fetch(process.env.SHEET_URL, {
-            method: 'POST',
-            mode: 'no-cors', // Since we're dealing with a cross-origin request
-            cache: 'no-cache',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(movieData)
-        });
-
-        // Check if the request was successful
-        if (response.ok) {
-            console.log('Movie added to Google Sheets successfully');
-        } else {
-            console.error('Failed to add movie to Google Sheets');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
+    await fetch('.netlify/functions/addMovie', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(movieData),
+    })
 }
 
 async function getMoviesFromSheets() {
 
     try {
-        const response = await fetch(process.env.SHEET_URL);
+        const movieInput = document.getElementById('movie-input');
+
+        const response = await fetch('.netlify/functions/getMovies');
         const movies = await response.json();
+
         // Sorting the array in descending order based on vote_average
         movies.sort((a, b) => b.vote_average - a.vote_average);
         console.log(movies);
         movies.forEach(movie => {
             addMovieToCarousel(movie); // Assuming you already have this function
+        });
+
+        //prepare input
+        movieInput.addEventListener('input', async () => {
+            const movieOptions = document.getElementById('movie-options');
+            console.log('in');
+            const searchTerm = movieInput.value.trim();
+            if (!searchTerm || searchTerm.length <= 3) {
+                movieOptions.innerHTML = ''; // Clear movie options if input is empty
+                return;
+            }
+        
+            // Fetch movie options based on the user's input
+            const response = await fetch(`.netlify/functions/searchMovie?searchTerm=${encodeURIComponent(searchTerm)}`);
+            const data = await response.json();
+            
+            // Populate movie options container with fetched movie options
+            movieOptions.innerHTML = '';
+            data.results.forEach(movie => {
+                if (movie.poster_path) {
+                    const option = document.createElement('div');
+                    option.classList.add('movie-option');
+                    option.innerHTML = `<img src="https://image.tmdb.org/t/p/w500/${movie.poster_path}" alt="${movie.original_title}">
+                                        <p>${movie.original_title} (${movie.release_date.split('-')[0]})</p>`;
+                    option.addEventListener('click', () => {
+                        addMovieToCarousel(movie);
+                        addMovieToSheets(movie);
+                        movieOptions.innerHTML = ''; // Clear movie options after selecting a movie
+                    });
+                    movieOptions.appendChild(option);
+                }
+            });
         });
     } catch (error) {
         console.error('Error fetching movies:', error);
