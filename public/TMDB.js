@@ -9,10 +9,10 @@ function addMovieToCarousel(movie) {
 
     const movieImage = document.createElement('img');
     movieImage.src = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
-    movieImage.alt = movie.original_title;
+    movieImage.alt = movie.title;
 
     const movieTitle = document.createElement('p');
-    movieTitle.textContent = movie.original_title;
+    movieTitle.textContent = movie.title;
 
     // Set the movie overview as a data attribute
     movieCard.dataset.overview = movie.overview;
@@ -54,7 +54,7 @@ function showMovieOverview(overview) {
 
 async function addMovieToSheets(movie) {
     const movieData = {
-        original_title: movie.original_title,
+        title: movie.title,
         release_date: movie.release_date, // Extract year from release_date
         poster_path: movie.poster_path,
         vote_average: movie.vote_average,
@@ -105,8 +105,8 @@ async function getMoviesFromSheets() {
                 if (movie.poster_path) {
                     const option = document.createElement('div');
                     option.classList.add('movie-option');
-                    option.innerHTML = `<img src="https://image.tmdb.org/t/p/w500/${movie.poster_path}" alt="${movie.original_title}">
-                                        <p>${movie.original_title} (${movie.release_date.split('-')[0]})</p>`;
+                    option.innerHTML = `<img src="https://image.tmdb.org/t/p/w500/${movie.poster_path}" alt="${movie.title}">
+                                        <p>${movie.title} (${movie.release_date.split('-')[0]})</p>`;
                     option.addEventListener('click', () => {
                         addMovieToCarousel(movie);
                         addMovieToSheets(movie);
