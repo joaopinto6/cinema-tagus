@@ -19,7 +19,7 @@ function addMovieToCarousel(movie) {
 
     movieCard.appendChild(movieImage);
     movieCard.appendChild(movieTitle);
-    movieCarousel.appendChild(movieCard);
+    movieCarousel.prepend(movieCard);
 
     movieInput.value = ''; // Clear input after search
 
@@ -79,7 +79,7 @@ async function getMoviesFromSheets() {
         const movies = await response.json();
 
         // Sorting the array in descending order based on vote_average
-        movies.sort((a, b) => b.vote_average - a.vote_average);
+        movies.sort((a, b) => a.vote_average - b.vote_average);
         console.log(movies);
         movies.forEach(movie => {
             addMovieToCarousel(movie); // Assuming you already have this function
