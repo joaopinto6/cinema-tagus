@@ -1,0 +1,133 @@
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    background-color: #000000;
+    color: #fff; /* Text color */
+
+}
+
+#search-container {
+    text-align: center;
+    position: relative;
+    margin-top: 20px;
+}
+
+#movie-input {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc; /* Optional: Adjusts the border appearance */
+    outline: none; /* Removes the default focus outline */
+    transition: box-shadow 0.3s ease-in-out; /* Smooth transition for the glow effect */
+}
+
+#movie-input:focus {
+    box-shadow: 0 0 8px 2px rgb(242, 155, 4); /* Customizable glow effect */
+}
+
+
+#movie-options {
+    position: absolute;
+    top: 100%; /* Position right beneath the input box with no margin */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    background-color: #fff;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); /* Add a box shadow for better visibility */
+    z-index: 999; /* Ensure movie options overlay on top of everything */
+    width: 320px;
+    white-space: normal; /* Allow text to wrap */
+    max-height: 50vh; /* Optionally limit the maximum height */
+    overflow-y: auto; /* Add scrollbar for overflow */
+}
+
+.movie-option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    gap: 15px;
+    padding: 10px;
+    transition: background-color 0.3s ease; /* Add transition effect */
+    border-bottom: 1px solid #ddd; /* Add border to separate options */
+    color: #000000;
+}
+
+.movie-option:hover {
+    background-color: #f0f0f0; /* Darken the option box when hovered */
+}
+
+.movie-option img {
+    width: 50px; /* Set a fixed width */
+    height: calc(50px * (3 / 2)); /* Set a fixed height */
+    object-fit: cover;
+}
+
+#movie-carousel {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: center; /* Center items horizontally */
+    margin-top: 20px;
+    gap: 10px;
+    padding: 10px;
+}
+
+.movie-card {
+    flex: 0 0 auto;
+    text-align: center;
+    margin-bottom: 20px; /* Add margin between rows */
+    border: 2px solid #ffffff; /* Add border to separate options */
+    padding: 2px;
+    width: 150px;
+}
+
+.movie-card img {
+    width: 150px; /* Set a fixed width */
+    height: calc(150px * (3 / 2)); /* Set a fixed height */
+    object-fit: cover; /* Ensure the aspect ratio is preserved */
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100vw; /* Full width */
+    height: 100vh; /* Full height */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    backdrop-filter: blur(8px);
+  }
+  
+  .modal-content {
+    position: absolute;
+    background-color: #262626;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.2em;
+}
+  
+.close {
+    color: #aaa;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+  

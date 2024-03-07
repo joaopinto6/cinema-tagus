@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Tagus</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="search-container">
+    <input type="text" id="movie-input" placeholder="Sugere um filme...">
+    <div id="movie-options"></div> <!-- Movie options container -->
+</div>
+
+<div id="movie-carousel"></div>
+
+<!-- Modal Structure -->
+<div id="movie-overview-modal" class="modal">
+    <div class="modal-content">
+        <p id="movie-overview-text"></p>
+        <span class="close">&times;</span>
+    </div>
+</div>
+
+<script src="TMDB.js"></script>
+<script>
+    // Call the function when the page is opened
+    getMoviesFromSheets();
+    document.addEventListener('click', function(event) {
+        const isClickInsideInput = document.getElementById('movie-input').contains(event.target);
+        const isClickInsideOptions = document.getElementById('movie-options').contains(event.target);
+
+        if (!isClickInsideInput && !isClickInsideOptions) {
+            document.getElementById('movie-options').style.display = 'none';
+        } else {
+            document.getElementById('movie-options').style.display = 'block';
+        }
+    });
+</script>
+</body>
+</html>
