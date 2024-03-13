@@ -6,21 +6,87 @@
     <title>Cinema Tagus</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- icons -->
+    <link rel="apple-touch-icon" sizes="76x76" href="icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+    <link rel="manifest" href="icons/site.webmanifest">
+    <link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+        /* CSS for the loading image */
+        #loading {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9998;
+        }
+        @media (max-width: 768px) { /* Mobile devices */
+            #loading {
+                width: 90vw; /* Set width to 90% of viewport width */
+                height: auto; /* Maintain aspect ratio */
+            }
+        }
+
+        @media (min-width: 769px) { /* Desktops and tablets */
+            #loading {
+                width: auto; /* Allow image to maintain aspect ratio */
+                height: 90vh; /* Set height to 90% of viewport height */
+            }
+        }
+
+        /* HTML: <div class="loader"></div> */
+        #loader {
+            position: fixed;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            width: fit-content;
+            font-weight: bold;
+            font-family: monospace;
+            font-size: 30px;
+            clip-path: inset(0 3ch 0 0);
+            animation: l4 1s steps(4) infinite;
+        }
+        #loader:before {
+            content:"Loading..."
+        }
+        @keyframes l4 {to{clip-path: inset(0 -1ch 0 0)}}
+
+        /* CSS to hide content initially */
+        #content {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 
-<div id="search-container">
-    <input type="text" id="movie-input" placeholder="Sugere um filme...">
-    <div id="movie-options"></div> <!-- Movie options container -->
+<!-- Loading image -->
+<div id="loading-container">
+    <!-- Loader -->
+    <div id="loader"></div>
+    <!-- Loading image -->
+    <img id="loading" src="assets/cinema-tagus.png" alt="Loading...">
 </div>
 
-<div id="movie-carousel"></div>
+<!-- Content -->
+<div id="content">
+    <div id="search-container">
+        <input type="text" id="movie-input" placeholder="Sugere um filme...">
+        <div id="movie-options"></div> <!-- Movie options container -->
+    </div>
 
-<!-- Modal Structure -->
-<div id="movie-overview-modal" class="modal">
-    <div class="modal-content">
-        <p id="movie-overview-text"></p>
-        <span class="close">&times;</span>
+    <div id="movie-carousel"></div>
+
+    <!-- Modal Structure -->
+    <div id="movie-overview-modal" class="modal">
+        <div class="modal-content">
+            <p id="movie-overview-text"></p>
+            <span class="close">&times;</span>
+        </div>
     </div>
 </div>
 
