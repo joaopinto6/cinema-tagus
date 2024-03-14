@@ -17,7 +17,17 @@ function addMovieToCarousel(movie) {
     // Set the movie overview as a data attribute
     movieCard.dataset.overview = movie.overview;
 
+    
     movieCard.appendChild(movieImage);
+
+    if (movie.seen) {
+        movieImage.style.filter = 'blur(5px)';
+
+        const overlay = document.createElement('img');
+        overlay.src = "assets/movie-seen.png";
+        overlay.classList.add('overlay');
+        movieCard.appendChild(overlay);
+    }
     movieCard.appendChild(movieTitle);
     movieCarousel.prepend(movieCard);
 

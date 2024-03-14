@@ -82,12 +82,21 @@ body {
     border: 2px solid #ffffff; /* Add border to separate options */
     padding: 2px;
     width: 150px;
+    position: relative;
 }
 
-.movie-card img {
+.movie-card img:first-child {
     width: 150px; /* Set a fixed width */
     height: calc(150px * (3 / 2)); /* Set a fixed height */
     object-fit: cover; /* Ensure the aspect ratio is preserved */
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Set a fixed width */
+    height: auto; /* Set a fixed height */
 }
 
 .modal {
