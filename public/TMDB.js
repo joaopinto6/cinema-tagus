@@ -95,15 +95,16 @@ async function getMoviesFromSheets() {
             addMovieToCarousel(movie); // Assuming you already have this function
         });
 
-        document.getElementById('loading-container').style.display = 'none';
-        document.getElementById('content').style.display = 'block';
+        Promise.all(Array.from(document.images).filter(img => !img.complete).map(img => new Promise(resolve => { img.onload = img.onerror = resolve; }))).then(() => {
+            document.getElementById('loading-container').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+        });
 
         //prepare input
         movieInput.addEventListener('input', async () => {
             const movieOptions = document.getElementById('movie-options');
-            console.log('in');
             const searchTerm = movieInput.value.trim();
-            if (!searchTerm || searchTerm.length <= 3) {
+            if (searchTerm.length <= 3) {
                 movieOptions.innerHTML = ''; // Clear movie options if input is empty
                 return;
             }
